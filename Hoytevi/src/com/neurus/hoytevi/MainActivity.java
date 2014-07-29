@@ -6,9 +6,11 @@ import java.io.FileInputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Calendar;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -28,13 +30,15 @@ import android.widget.Toast;
 public class MainActivity extends Activity {
 	
 	private TextView messageText;
-    private Button uploadButton, btnselectpic;
+	private Calendar c = Calendar.getInstance();
+    private Button btnselectpic,btnViewCam,uploadButton;
     private ImageView imageview;
     private int serverResponseCode = 0;
     private ProgressDialog dialog = null;
        
     private String upLoadServerUri = null;
     private String imagepath=null;
+    private String imagepathCam=null;
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,19 +46,46 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		
 		//instanciamos los elementos de la vista
-		uploadButton = (Button)findViewById(R.id.btnSubir);
 		btnselectpic = (Button)findViewById(R.id.btnBuscar);
+		btnViewCam = (Button)findViewById(R.id.btnCam);
+		uploadButton = (Button)findViewById(R.id.btnSubir);
 		messageText  = (TextView)findViewById(R.id.txtNombreArchivo);
 		imageview = (ImageView)findViewById(R.id.imageView_pic);
 
 		btnselectpic.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View arg0) {
 				Intent intent = new Intent();
 	            intent.setType("image/*");
 	            intent.setAction(Intent.ACTION_GET_CONTENT);
 	            startActivityForResult(Intent.createChooser(intent, "Complete action using"), 1);
+			}
+		});
+		btnViewCam.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				
+
+				//intent para acceder a la camara
+				Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+				/*
+				 *	SimpleDateFormat df1 = new SimpleDateFormat("dd-MMM-yyyy");
+				 *	String formattedDate1 = df1.format(c.getTime());
+				 *	SimpleDateFormat df2 = new SimpleDateFormat("dd-MM-yyyy");
+				 *	String formattedDate2 = df2.format(c.getTime());
+				 *	SimpleDateFormat df3 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss a");
+				 *	String formattedDate3 = df3.format(c.getTime());
+				 * 
+				 * 
+				 * Creamos un fichero donde guardaremos la foto
+				 */
+				imagepathCam = Environment.getExternalStorageDirectory() + "/imagen"+c.getTime() +".jpg";
+				Uri output = Uri.fromFile(new File(imagepathCam));
+				intent.putExtra(MediaStore.EXTRA_OUTPUT, output);
+				/*
+				 * Lanzamos el intent y recogemos el resultado en onActivityResult
+				 */
+				startActivityForResult(intent, 2); // 2 para la camara, 1 para la galeria
 			}
 		});
 		uploadButton.setOnClickListener(new OnClickListener() {
@@ -212,6 +243,18 @@ public class MainActivity extends Activity {
             imageview.setImageBitmap(bitmap);
             messageText.setText("Ruta archivo a cargar:" +imagepath);//Uploading file path
 	    	
+	    }else if(requestCode == 2){//camara
+	    	
+			imageview.setImageBitmap(BitmapFactory.decodeFile(imagepathCam));//imagen decodificada en mapa de bits
+
+			File file = new File(imagepathCam);
+			
+			if (file.exists()) {//si se realizó la foto
+				Toast.makeText(getApplicationContext(), "Se ha realizado la foto", Toast.LENGTH_SHORT).show();
+
+			}
+			else
+				Toast.makeText(getApplicationContext(), "No se ha realizado la foto", Toast.LENGTH_SHORT).show();
 	    }
     }
 	public String getPath(Uri uri) {

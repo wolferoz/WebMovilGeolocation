@@ -1,16 +1,12 @@
 package com.neurus.hoytevi;
 
-import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Calendar;
-import java.util.List;
 
 import org.apache.http.HttpVersion;
 import org.apache.http.client.HttpClient;
@@ -27,7 +23,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
@@ -61,6 +56,7 @@ public class MainActivity extends Activity {
     private ProgressDialog dialog = null;
        
     private String upLoadServerUri = null;
+    private String urlBase="http://192.168.137.1/proyecto/public";
     private String imagepath=null;
     private String imagepathCam=null;
     
@@ -151,11 +147,21 @@ public class MainActivity extends Activity {
     				}
     			}
     		});
+    		
+    		imageview.setOnClickListener(new OnClickListener() {
+    			@Override
+    			public void onClick(View v) {
+    				Intent viewIntent = new Intent("android.intent.action.VIEW", Uri.parse(urlBase));  
+    				startActivity(viewIntent);
+    			}
+    		});
+    		
     		//upLoadServerUri = "http://192.168.137.1/proyecto/public/post/guardar/Titulo/galeria/Categoria/2/Descripcion/bb";
     		
 	}
 	private void defineUpLoadServerUri(String unTitulo,String unaCategoria,String unaDescripcion){
-		upLoadServerUri = "http://192.168.1.2/conectar/UploadToServer.php?titulo="+unTitulo+"&id_categoria="+unaCategoria+"&descripcion="+unaDescripcion;
+		//upLoadServerUri = "http://192.168.1.2/conectar/UploadToServer.php?titulo="+unTitulo+"&id_categoria="+unaCategoria+"&descripcion="+unaDescripcion;
+		upLoadServerUri = urlBase+"/post/guardar/Titulo/"+unTitulo+"/Categoria/"+unaCategoria+"/Descripcion/"+unaDescripcion;
 	}
 	//Sube una imagen cargada desde la galeria
 	public int uploadFile(String sourceFileUri) {
@@ -290,6 +296,8 @@ public class MainActivity extends Activity {
 			intent.putExtra("resultado",0);
 			setResult(RESULT_OK, intent);
 			finish();
+		}else if(item.getItemId() == R.id.action_settings){
+			Toast.makeText(this, "By Neurus - Aufer Victoriano", Toast.LENGTH_SHORT).show();
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -402,4 +410,5 @@ public class MainActivity extends Activity {
 		setResult(RESULT_OK, intent);
 		finish();
 	}
+
 }

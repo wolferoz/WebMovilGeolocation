@@ -121,7 +121,7 @@ public class LoginActivity extends Activity {
         return false;
     }
 	//Metodo que crea un fichero de texto plano y almacena en el datos importantes
-	public void grabar() {
+	private void grabar() {
 
         try {
             OutputStreamWriter archivo = new OutputStreamWriter(openFileOutput(
@@ -143,7 +143,6 @@ public class LoginActivity extends Activity {
 	
 	//Clase asíncrona para realizar la coneccion con el servidor
 	private class Conectar extends AsyncTask<String, Void, String>{
-
 		private Activity activity;
 		  
 		public Conectar(Activity activity){

@@ -17,8 +17,6 @@ import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.CoreProtocolPNames;
 
-
-
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -51,6 +49,10 @@ public class MainActivity extends Activity {
     private String upLoadServerUri = null;
     private String imagepath=null;
     private String imagepathCam=null;
+    
+    private String alias="alias";
+    
+    private int idAccion=0; 
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +93,7 @@ public class MainActivity extends Activity {
 				 * 
 				 * Creamos un fichero donde guardaremos la foto
 				 */
-				imagepathCam = Environment.getExternalStorageDirectory() + "/imagen"+c.getTimeInMillis() +".jpg";
+				imagepathCam = Environment.getExternalStorageDirectory() + "/"+alias+c.getTimeInMillis()+".jpeg";
 				Uri output = Uri.fromFile(new File(imagepathCam));
 				intent.putExtra(MediaStore.EXTRA_OUTPUT, output);
 				/*
@@ -104,17 +106,23 @@ public class MainActivity extends Activity {
 			
 			@Override
 			public void onClick(View arg0) {
-				dialog = ProgressDialog.show(MainActivity.this, "", "Cargando archivo...", true);//Uploading file
-				 messageText.setText("Empezando la carga.....");//uploading started
-				 new Thread(new Runnable(){
-	                 public void run(){
-	                	 uploadFile(imagepath);
-	                 }
-	             }).start();
+				if(idAccion == 1){//galeria
+					dialog = ProgressDialog.show(MainActivity.this, "", "Cargando archivo...", true);//Uploading file
+					 messageText.setText("Empezando la carga.....");//uploading started
+					 new Thread(new Runnable(){
+		                 public void run(){
+		                	 uploadFile(imagepath);
+		                 }
+		             }).start();
+				}else if(idAccion== 2){//camara
+					UploaderFoto nuevaTarea = new UploaderFoto();
+					nuevaTarea.execute(imagepathCam);
+				}
+				
 				
 			}
 		});
-		upLoadServerUri = "http://192.168.1.2/pruebas/UploadToServer.php";
+		upLoadServerUri = "http://192.168.1.2/conectar/UploadToServer.php";
 	}
 	//llamado al dar click en boton subir
 	public int uploadFile(String sourceFileUri) {
@@ -159,13 +167,13 @@ public class MainActivity extends Activity {
 		            conn.setRequestProperty("Connection", "Keep-Alive");
 		            conn.setRequestProperty("ENCTYPE", "multipart/form-data");
 		            conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
-		            conn.setRequestProperty("uploaded_file", fileName);//nuevo valor de nombre 
+		            conn.setRequestProperty("uploaded_file", fileName );//nuevo valor de nombre 
 
 		            dos = new DataOutputStream(conn.getOutputStream());
 		     
 		            dos.writeBytes(twoHyphens + boundary + lineEnd); 
 		            dos.writeBytes("Content-Disposition: form-data; name=\"uploaded_file\";filename=\""
-		            		                     + fileName + "\"" + lineEnd);
+		            		                     +alias+c.getTimeInMillis()+".jpeg"+ "\"" + lineEnd);
 		            dos.writeBytes(lineEnd);
 		            
 		            // create a buffer of  maximum size
@@ -254,7 +262,7 @@ public class MainActivity extends Activity {
             Bitmap bitmap = BitmapFactory.decodeFile(imagepath);
             imageview.setImageBitmap(bitmap);
             messageText.setText("Ruta archivo a cargar:" +imagepath);//Uploading file path
-	    	
+	    	idAccion=1;
 	    }else if(requestCode == 2){//camara
 	    	
 			imageview.setImageBitmap(BitmapFactory.decodeFile(imagepathCam));//imagen decodificada en mapa de bits
@@ -262,6 +270,7 @@ public class MainActivity extends Activity {
 			File file = new File(imagepathCam);
 			
 			if (file.exists()) {//si se realizó la foto
+				idAccion=2;
 				Toast.makeText(getApplicationContext(), "Se ha realizado la foto", Toast.LENGTH_SHORT).show();
 			}
 			else
@@ -309,12 +318,12 @@ public class MainActivity extends Activity {
 				HttpClient httpclient = new DefaultHttpClient();
 				httpclient.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
 				// PARA ENVIAR INFORMACION DE TIPO POST
-				HttpPost httppost = new HttpPost("http://192.168.1.2/pruebas/ConectarImagenDos/upload.php");
+				HttpPost httppost = new HttpPost("http://192.168.1.2/conectar/UploadToServer.php");
 				File file = new File(miFoto);
 				//PARA ENVIAR INFORMACION Y ARCHIVOS
 				MultipartEntity mpEntity = new MultipartEntity();
 				ContentBody foto = new FileBody(file, "image/jpeg");
-				mpEntity.addPart("fotoUp", foto);
+				mpEntity.addPart("uploaded_file", foto);
 				httppost.setEntity(mpEntity);
 				httpclient.execute(httppost);
 				httpclient.getConnectionManager().shutdown();

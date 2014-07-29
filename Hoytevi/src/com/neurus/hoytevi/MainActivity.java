@@ -8,7 +8,19 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Calendar;
 
+import org.apache.http.HttpVersion;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.ContentBody;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.CoreProtocolPNames;
+
+
+
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -79,7 +91,7 @@ public class MainActivity extends Activity {
 				 * 
 				 * Creamos un fichero donde guardaremos la foto
 				 */
-				imagepathCam = Environment.getExternalStorageDirectory() + "/imagen"+c.getTime() +".jpg";
+				imagepathCam = Environment.getExternalStorageDirectory() + "/imagen"+c.getTimeInMillis() +".jpg";
 				Uri output = Uri.fromFile(new File(imagepathCam));
 				intent.putExtra(MediaStore.EXTRA_OUTPUT, output);
 				/*
@@ -251,7 +263,6 @@ public class MainActivity extends Activity {
 			
 			if (file.exists()) {//si se realizó la foto
 				Toast.makeText(getApplicationContext(), "Se ha realizado la foto", Toast.LENGTH_SHORT).show();
-
 			}
 			else
 				Toast.makeText(getApplicationContext(), "No se ha realizado la foto", Toast.LENGTH_SHORT).show();
@@ -264,4 +275,66 @@ public class MainActivity extends Activity {
         cursor.moveToFirst();
         return cursor.getString(column_index);
     }
+	
+	protected void onSaveInstanceState (Bundle outState){
+		outState.putString("imagepathCam", imagepathCam);
+	}
+	@Override
+    protected void onRestoreInstanceState(Bundle recEstado) {
+         super.onRestoreInstanceState(recEstado);
+         if(imagepathCam != null){
+        	 imagepathCam  = recEstado.getString("imagepathCam");
+         
+        	 imageview.setImageBitmap(BitmapFactory.decodeFile(imagepathCam));//imagen decodificada en mapa de bits
+
+ 			File file = new File(imagepathCam);
+ 			
+ 			if (file.exists()) {//si se realizó la foto
+ 				Toast.makeText(getApplicationContext(), "Se ha realizado la foto", Toast.LENGTH_SHORT).show();
+ 			}
+ 			else
+ 				Toast.makeText(getApplicationContext(), "No se ha realizado la foto", Toast.LENGTH_SHORT).show();
+         }
+    }
+	class UploaderFoto extends AsyncTask<String, Void, Void>{
+
+		ProgressDialog pDialog;//Dialogo de progreso de subida de la foto
+		String miFoto = "";//Guardamos la ruta absoluta de la foto
+		
+		@Override
+		protected Void doInBackground(String... params) {
+			miFoto = params[0];
+			try {
+				//clase para comunicaciones HTTP
+				HttpClient httpclient = new DefaultHttpClient();
+				httpclient.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
+				// PARA ENVIAR INFORMACION DE TIPO POST
+				HttpPost httppost = new HttpPost("http://192.168.1.2/pruebas/ConectarImagenDos/upload.php");
+				File file = new File(miFoto);
+				//PARA ENVIAR INFORMACION Y ARCHIVOS
+				MultipartEntity mpEntity = new MultipartEntity();
+				ContentBody foto = new FileBody(file, "image/jpeg");
+				mpEntity.addPart("fotoUp", foto);
+				httppost.setEntity(mpEntity);
+				httpclient.execute(httppost);
+				httpclient.getConnectionManager().shutdown();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+		
+		protected void onPreExecute() {
+			super.onPreExecute();
+			pDialog = new ProgressDialog(MainActivity.this);
+	        pDialog.setMessage("Subiendo la imagen, espere." );
+	        pDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+	        pDialog.setCancelable(true);
+	        pDialog.show();
+		}
+		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
+			pDialog.dismiss();
+		}
+	}
 }

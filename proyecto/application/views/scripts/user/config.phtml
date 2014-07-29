@@ -1,0 +1,179 @@
+<div id="primary">
+    <div id="content">
+        <div id="post-157" class="post-157 page type-page status-publish hentry">
+            <div class="entry-content">
+                <center>
+                <div id="ancie">
+                <!-- Enlace-TC-Horizontal -->
+                <ins class="adsbygoogle"
+                     style="display:inline-block;width:468px;height:15px"
+                     data-ad-client="ca-pub-3567481747949009"
+                     data-ad-slot="9019145573"></ins>
+                <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+                 </div>
+                </center>
+                <?php
+                foreach($this->datos as $row):
+                ?>
+                    <div id="config-acount">
+                        <h2 >Configurar cuenta</h2>
+                        <?php if(isset($this->alerta)){ ?>
+                        <p><?php echo $this->alerta ?></p>
+                        <?php } ?>
+                        <li>
+                            <div class="config-datos"><b>Alias:</b> <?php echo $row['pseudonimo']?></div>
+                            <div id="Editar1" class="config-editar">Editar</div>
+                            <div id="target1" class="target">
+                                <form name="form1" action="<?php echo $this->baseUrl?>/user/config/modo/a" method="post">
+                                    <div><label>Nuevo Alias: </label></div>
+                                    <div style="padding-left: 30px"><input type="text" name="txtAlias" id="txtAlias"/></div>
+                                    <div style="padding-left: 30px"><button  >Cambiar</button></div>
+                                </form>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="config-datos"><b>Correo:</b> <?php echo $row['correo']?></div>
+                            <div id="Editar2" class="config-editar">Editar</div>
+                            <div id="target2" class="target">
+                                <form name="form2" action="<?php echo $this->baseUrl?>/user/config/modo/b" method="post">
+                                    <div><label>Nuevo Correo: </label></div>
+                                    <div style="padding-left: 30px"><input type="text" name="txtCorreo" id="txtCorreo"/></div>
+                                    <div style="padding-left: 30px"><button >Cambiar</button></div>
+                                </form>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="config-datos"><b>Contraseña:</b> ******</div>
+                            <div id="Editar3" class="config-editar">Editar</div>
+                            <div id="target3" class="target">
+                                <form name="form3" action="<?php echo $this->baseUrl?>/user/config/modo/c" method="post">
+                                    <div><label>Contraseña anterior: </label></div>
+                                    <div style="padding-left: 30px"><input type="text" name="txtcontraante" id="txtcontraante"/></div>
+                                    <div><label>Nueva Contraseña: </label></div>
+                                    <div style="padding-left: 30px"><input type="text" name="txtcontranew" id="txtcontranew"/></div>
+                                    <div style="padding-left: 30px"><button >Cambiar</button></div>
+                                </form>
+                            </div>
+                        </li>
+                        <li>
+                            <div  class="config-datos"><b>Mi Imágen:</b><div id="imges-subido"><img src="<?php echo $this->baseUrl.'/'.$row['imagen']?>"/></div></div>
+                            <div id="upload_button" class="config-editar">Editar</div>
+                        </li>
+                    </div>
+                <?php
+                    endforeach;
+                ?>
+            </div>
+
+            <!-- .entry-content -->
+        </div>
+    </div>
+    <!-- #post-157 -->
+</div>
+        <div id="secondary" class="widget-area">
+        <center>
+        <!-- C-taleral -->
+        <ins class="adsbygoogle"
+             style="display:inline-block;width:250px;height:250px"
+             data-ad-client="ca-pub-3567481747949009"
+             data-ad-slot="4422652372"></ins>
+        <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+        </center>
+        <div class="sidebar">
+
+        <a class="sidebar-toggle" title="Expand Sidebar"><i class="icon-reorder"></i></a>
+
+                <ul class="sidebar-content">
+                        <li id="wpb-tabs-2" class="widget2 widget_wpb_tabs">
+                            <ul class="wpb-tabs group tabs-4">
+                                <li class="wpb-tab-recent"><a href="#tab-recent-2" title="Recent Posts" class="active"><i class="fa fa-clock-o"></i><span>Recent Posts</span></a></li>
+                                <li class="wpb-tab-popular"><a href="#tab-popular-2" title="Most Popular" class=""><i class="fa fa-cog"></i><span>Most Popular</span></a></li>
+                                <li class="wpb-tab-comments"><a href="#tab-comments-2" title="Comments" class=""><i class="fa fa-comments-o"></i><span>Comments</span></a></li>
+                                <li class="wpb-tab-tags"><a href="#tab-tags-2" title="Tags" class=""><i class="fa fa-tags"></i><span>Tags</span></a></li>
+                            </ul>
+                            <ul id="tab-recent-2" class="list-recent wpb-tab" style="display: block;">
+                                <?php foreach($this->Rand as $row):
+                                        $url=str_replace(' ','-',$row['titulo']);
+                                        ?>
+                                <li class="format-image wpb-thumb-enabled group">
+                                    <a title="<?php echo $row['titulo']?>" href="<?php echo $this->baseUrl.'/ver/'.$url.'-'.$row['id_confecion'].'.html'?>">
+                                        <span class="wpb-thumb"><img width="100" height="100" src="<?php echo $this->baseUrl.'/'.$row['imagen']?>" class="attachment-size-thumbnail-tabs wp-post-image" /></span>
+                                        <span class="wpb-text"><i class="title"><?php echo $row['titulo']?></i><i class="meta"><?php echo $row['fechaconfecion']?></i></span>
+                                    </a>
+                                </li>
+                                <?php endforeach;?>
+                            </ul>
+                            <ul id="tab-popular-2" class="list-popular wpb-tab" style="display: none;">
+                                <?php foreach($this->Ultimos as $row):
+                                        $url=str_replace(' ','-',$row['titulo']);
+                                        ?>
+                                <li class="format-image wpb-thumb-enabled group">
+                                    <a title="<?php echo $row['titulo']?>" href="<?php echo $this->baseUrl.'/ver/'.$url.'-'.$row['id_confecion'].'.html'?>">
+                                        <span class="wpb-thumb"><img width="100" height="100" src="<?php echo $this->baseUrl.'/'.$row['imagen']?>" class="attachment-size-thumbnail-tabs wp-post-image" /></span>
+                                        <span class="wpb-text"><i class="title"><?php echo $row['titulo']?></i><i class="meta"><?php echo $row['fechaconfecion']?></i></span>
+                                    </a>
+                                </li>
+                                <?php endforeach;?>
+                            </ul>
+                            <ul id="tab-comments-2" class="list-comments wpb-tab" style="display: none;">
+                                <?php foreach($this->UserInfo as $row):?>
+                                <li class="group wpb-thumb-enabled">
+                                    <a title="<?php echo $row['pseudonimo']?>" href="<?php echo $this->baseUrl.'/usuario/'.$row['pseudonimo']?>">
+                                        <span class="wpb-thumb"><img alt="" src="<?php echo $this->baseUrl.'/'.$row['imagen']?>" class="avatar avatar-128 photo avatar-default" height="128" width="128"></span>
+                                        <span class="wpb-text"><i class="meta"><?php echo $row['pseudonimo']?></i><i class="title">Nuevo Usuario</i></span>
+                                    </a>
+                                </li>
+                                <?php endforeach;?>
+                             </ul>
+                            <ul id="tab-tags-2" class="list-tags wpb-tab" style="display: none;">
+                                <li>
+                                    <?php
+                                    $i=0;
+                                    foreach($this->ConfecionTag as $row):
+                                            $url=str_replace(' ','-',$row['titulo']);
+                                            $i++;
+                                    if($i==40){break;}
+                                            $rand1=mt_rand(8*10, 20*10) / 10;
+                                            ?>
+                                    <a href="<?php echo $this->baseUrl.'/ver/'.$url.'-'.$row['id_confecion'].'.html'?>" class="tag-link-178"  style="font-size: <?php echo $rand1?>pt;"><?php echo $row['titulo']?></a>
+                                    <?php endforeach;?>
+                                </li>
+                            </ul>
+                        </li>
+                </ul>
+        </div>
+
+        </div>
+<script language="javascript">
+$(document).ready(function(){
+	var button = $('#upload_button'), interval;
+	new AjaxUpload('#upload_button', {
+        action: '<?php echo $this->baseUrl.'/user/subir'?>',
+		onSubmit : function(file , ext){
+		if (! (ext && /^(jpg|png|jpeg|gif)$/.test(ext))){
+			// extensiones permitidas
+			alert('Error: Solo se permiten imagenes');
+			// cancela upload
+			return false;
+		} else {
+			button.html('<img src="<?php echo $this->baseUrl?>/img/ajax-loader.gif" width="25" height="25"/>');
+			this.disable();
+		}
+		},
+		onComplete: function(file, response){
+			button.text('Editar');
+			// enable upload button
+			this.enable();
+			// Agrega archivo a la lista
+			//$152('#img').appendTo('.files').html('<img src="uploads/'+file+'" width="120" height="50" />');
+			$("#imges-subido").html('<img style="width:125px;height:125px;" src="<?php echo $this->baseUrl.'/uploads/'?>'+response+'"/>');
+
+		}
+	});
+});
+</script>
+

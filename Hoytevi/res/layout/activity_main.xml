@@ -49,6 +49,19 @@
         android:padding="10dp"
         android:text="@string/buscar"
         android:textColor="@android:color/white" />
+	<Button
+        android:id="@+id/btnCam"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btnSubir"
+        android:layout_alignLeft="@+id/btnSubir"
+        android:layout_marginBottom="19dp"
+        android:layout_weight="1"
+        android:background="@drawable/btn_cam"
+        android:drawableLeft="@drawable/ic_action_cam_open"
+        android:padding="10dp"
+        android:text="@string/cam"
+        android:textColor="@android:color/white" />
     <Button
         android:id="@+id/btnSubir"
         android:layout_width="fill_parent"

@@ -1,47 +1,53 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#D0F4DB"
-    android:orientation="vertical"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin" >
+    android:paddingTop="@dimen/activity_vertical_margin"
 
-    <EditText
-        android:id="@+id/txtLoginPasword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/txtIDUsuario"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="23dp"
-        android:background="#ffffff"
-        android:ems="10"
-        android:hint="Contraseña"
-        android:inputType="textPassword"
-        android:padding="15dp" />
+    android:background = "#D0F4DB"
 
-    <Button
-        android:id="@+id/btnLoginInitSesion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/txtLoginAlias"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="81dp"
-        android:background="@drawable/btn_ok"
-        android:text="Iniciar Sesión" />
-
-    <EditText
-        android:id="@+id/txtLoginAlias"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/txtLoginPasword"
-        android:layout_below="@+id/txtLoginPasword"
-        android:layout_marginTop="27dp"
-        android:background="#ffffff"
-        android:ems="10"
-        android:hint="Alias"
-        android:padding="15dp" />
-
-</RelativeLayout>
+    tools:context=".MainActivity" >
+	
+    <TableLayout
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:layout_centerHorizontal="true"
+	    android:stretchColumns="0">
+		<TableRow>	
+	        <EditText
+				android:id="@+id/txtLoginAlias"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_marginTop="100dp"
+			    android:background="#ffffff"
+			    android:ems="10"
+			    android:hint="Alias"
+			    android:padding="15dp" />
+	    </TableRow>
+	    <TableRow>
+	        <EditText
+	            android:id="@+id/txtLoginPasword"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginTop="19dp"
+	            android:background="#ffffff"
+	            android:ems="10"
+	            android:hint="Contraseña"
+	            android:inputType="textPassword"
+	            android:padding="15dp" >
+	        </EditText>
+	    </TableRow>
+	    <TableRow>
+			<Button
+			    android:id="@+id/btnLoginInitSesion"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_marginTop="19dp"
+			    android:background="@drawable/btn_ok"
+			    android:text="Iniciar Sesión" />
+		</TableRow>
+	</TableLayout>	
+</ScrollView>

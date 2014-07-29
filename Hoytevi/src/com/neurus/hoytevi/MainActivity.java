@@ -1,12 +1,16 @@
 package com.neurus.hoytevi;
 
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Calendar;
+import java.util.List;
 
 import org.apache.http.HttpVersion;
 import org.apache.http.client.HttpClient;
@@ -23,6 +27,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
@@ -30,6 +35,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -38,6 +44,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
+	
+	private String alias = "";
+	private String password = "";
+	private String nombre="";
+	private String apellido="";
+	private String rol="";
 	
 	private TextView messageText;
 	private Calendar c = Calendar.getInstance();
@@ -50,8 +62,6 @@ public class MainActivity extends Activity {
     private String imagepath=null;
     private String imagepathCam=null;
     
-    private String alias="alias";
-    
     private int idAccion=0; 
     
 	@Override
@@ -59,69 +69,82 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		//instanciamos los elementos de la vista
-		btnselectpic = (Button)findViewById(R.id.btnBuscar);
-		btnViewCam = (Button)findViewById(R.id.btnCam);
-		uploadButton = (Button)findViewById(R.id.btnSubir);
-		messageText  = (TextView)findViewById(R.id.txtNombreArchivo);
-		imageview = (ImageView)findViewById(R.id.imageView_pic);
-
-		btnselectpic.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				Intent intent = new Intent();
-	            intent.setType("image/*");
-	            intent.setAction(Intent.ACTION_GET_CONTENT);
-	            startActivityForResult(Intent.createChooser(intent, "Complete action using"), 1);
-			}
-		});
-		btnViewCam.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				
-
-				//intent para acceder a la camara
-				Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-				/*
-				 *	SimpleDateFormat df1 = new SimpleDateFormat("dd-MMM-yyyy");
-				 *	String formattedDate1 = df1.format(c.getTime());
-				 *	SimpleDateFormat df2 = new SimpleDateFormat("dd-MM-yyyy");
-				 *	String formattedDate2 = df2.format(c.getTime());
-				 *	SimpleDateFormat df3 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss a");
-				 *	String formattedDate3 = df3.format(c.getTime());
-				 * 
-				 * 
-				 * Creamos un fichero donde guardaremos la foto
-				 */
-				imagepathCam = Environment.getExternalStorageDirectory() + "/"+alias+c.getTimeInMillis()+".jpeg";
-				Uri output = Uri.fromFile(new File(imagepathCam));
-				intent.putExtra(MediaStore.EXTRA_OUTPUT, output);
-				/*
-				 * Lanzamos el intent y recogemos el resultado en onActivityResult
-				 */
-				startActivityForResult(intent, 2); // 2 para la camara, 1 para la galeria
-			}
-		});
-		uploadButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				if(idAccion == 1){//galeria
-					dialog = ProgressDialog.show(MainActivity.this, "", "Cargando archivo...", true);//Uploading file
-					 messageText.setText("Empezando la carga.....");//uploading started
-					 new Thread(new Runnable(){
-		                 public void run(){
-		                	 uploadFile(imagepath);
-		                 }
-		             }).start();
-				}else if(idAccion== 2){//camara
-					UploaderFoto nuevaTarea = new UploaderFoto();
-					nuevaTarea.execute(imagepathCam);
-				}
-			}
-		});
-		upLoadServerUri = "http://192.168.137.1/proyecto/public/post/guardar/Titulo/galeria/Categoria/2/Descripcion/bb";
+		
+		Bundle extras = getIntent().getExtras();
+		alias = extras.getString("alias");
+		password = extras.getString("password");
+		nombre = extras.getString("nombre");
+		apellido = extras.getString("apellido");
+		rol = extras.getString("rol");
+		
+		iniciar();
 	}
-	//llamado al dar click en boton subir
+	private void iniciar(){
+          //instanciamos los elementos de la vista
+    		btnselectpic = (Button)findViewById(R.id.btnBuscar);
+    		btnViewCam = (Button)findViewById(R.id.btnCam);
+    		uploadButton = (Button)findViewById(R.id.btnSubir);
+    		messageText  = (TextView)findViewById(R.id.txtNombreArchivo);
+    		imageview = (ImageView)findViewById(R.id.imageView_pic);
+
+    		messageText.setText(alias+" "+password+" "+nombre+" "+apellido+" "+rol);
+    		
+    		btnselectpic.setOnClickListener(new OnClickListener() {
+    			@Override
+    			public void onClick(View arg0) {
+    				Intent intent = new Intent();
+    	            intent.setType("image/*");
+    	            intent.setAction(Intent.ACTION_GET_CONTENT);
+    	            startActivityForResult(Intent.createChooser(intent, "Complete action using"), 1);
+    			}
+    		});
+    		btnViewCam.setOnClickListener(new OnClickListener() {
+    			@Override
+    			public void onClick(View arg0) {
+    				
+    				//intent para acceder a la camara
+    				Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+    				/*
+    				 *	SimpleDateFormat df1 = new SimpleDateFormat("dd-MMM-yyyy");
+    				 *	String formattedDate1 = df1.format(c.getTime());
+    				 *	SimpleDateFormat df2 = new SimpleDateFormat("dd-MM-yyyy");
+    				 *	String formattedDate2 = df2.format(c.getTime());
+    				 *	SimpleDateFormat df3 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss a");
+    				 *	String formattedDate3 = df3.format(c.getTime());
+    				 * 
+    				 * 
+    				 * Creamos un fichero donde guardaremos la foto
+    				 */
+    				imagepathCam = Environment.getExternalStorageDirectory() + "/"+alias+c.getTimeInMillis()+".jpeg";
+    				Uri output = Uri.fromFile(new File(imagepathCam));
+    				intent.putExtra(MediaStore.EXTRA_OUTPUT, output);
+    				/*
+    				 * Lanzamos el intent y recogemos el resultado en onActivityResult
+    				 */
+    				startActivityForResult(intent, 2); // 2 para la camara, 1 para la galeria
+    			}
+    		});
+    		uploadButton.setOnClickListener(new OnClickListener() {
+    			@Override
+    			public void onClick(View arg0) {
+    				if(idAccion == 1){//galeria
+    					dialog = ProgressDialog.show(MainActivity.this, "", "Cargando archivo...", true);//Uploading file
+    					 messageText.setText("Empezando la carga.....");//uploading started
+    					 new Thread(new Runnable(){
+    		                 public void run(){
+    		                	 uploadFile(imagepath);
+    		                 }
+    		             }).start();
+    				}else if(idAccion== 2){//camara
+    					UploaderFoto nuevaTarea = new UploaderFoto();
+    					nuevaTarea.execute(imagepathCam);
+    				}
+    			}
+    		});
+    		//upLoadServerUri = "http://192.168.137.1/proyecto/public/post/guardar/Titulo/galeria/Categoria/2/Descripcion/bb";
+    		upLoadServerUri = "http://192.168.1.2/conectar/UploadToServer.php";
+	}
+	//Sube una imagen cargada desde la galeria
 	public int uploadFile(String sourceFileUri) {
 			String fileName = sourceFileUri;
 
@@ -247,6 +270,16 @@ public class MainActivity extends Activity {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == R.id.action_cerrar_sesion) {
+			Intent intent = new Intent();
+			intent.putExtra("resultado",0);
+			setResult(RESULT_OK, intent);
+			finish();
+		}
+		return super.onOptionsItemSelected(item);
+	}
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -314,7 +347,8 @@ public class MainActivity extends Activity {
 				HttpClient httpclient = new DefaultHttpClient();
 				httpclient.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
 				// PARA ENVIAR INFORMACION DE TIPO POST
-				HttpPost httppost = new HttpPost("http://192.168.137.1/proyecto/public/post/guardar/Titulo/camara/Categoria/1/Descripcion/aa");
+				//HttpPost httppost = new HttpPost("http://192.168.137.1/proyecto/public/post/guardar/Titulo/camara/Categoria/1/Descripcion/aa");
+				HttpPost httppost = new HttpPost("http://192.168.1.2/conectar/UploadToServer.php");
 				
 				File file = new File(miFoto);
 				//PARA ENVIAR INFORMACION Y ARCHIVOS
@@ -342,5 +376,12 @@ public class MainActivity extends Activity {
 			super.onPostExecute(result);
 			pDialog.dismiss();
 		}
+	}
+	
+	public void onBackPressed() {
+		Intent intent = new Intent();
+		intent.putExtra("resultado",1);
+		setResult(RESULT_OK, intent);
+		finish();
 	}
 }

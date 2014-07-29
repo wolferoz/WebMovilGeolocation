@@ -20,6 +20,7 @@
 		        android:layout_width="100dp"
 		        android:layout_height="100dp"
 		        android:src="@drawable/ic_launcher" />
+
 		</TableRow>
 		<TableRow >
 		    <TextView
@@ -52,6 +53,21 @@
 		        android:text="@string/buscar"
 		        android:textColor="@android:color/white" />
 		</TableRow>
+		
+		<TableRow >
+		    <Button
+		        android:id="@+id/btnCam"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_marginTop="19dp"
+		        android:layout_weight="1"
+		        android:background="@drawable/btn_cam"
+		        android:drawableLeft="@drawable/ic_action_cam_open"
+		        android:padding="10dp"
+		        android:text="@string/cam"
+		        android:textColor="@android:color/white" />
+		</TableRow>
+		
 		<TableRow >
 		    <Button
 		        android:id="@+id/btnSubir"
@@ -66,17 +82,70 @@
 		        android:textColor="@android:color/white" />
 		</TableRow>
 		<TableRow >
-		    <Button
-		        android:id="@+id/btnCam"
+			<TextView
 		        android:layout_width="fill_parent"
 		        android:layout_height="wrap_content"
-		        android:layout_marginTop="19dp"
+		        android:text="Titulo:"
 		        android:layout_weight="1"
-		        android:background="@drawable/btn_cam"
-		        android:drawableLeft="@drawable/ic_action_cam_open"
-		        android:padding="10dp"
-		        android:text="@string/cam"
-		        android:textColor="@android:color/white" />
+		        android:padding="10dp" />
+		</TableRow>
+		<TableRow >
+			<EditText
+			    android:id="@+id/editText2"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:ems="10"
+			    android:hint="Titulo de la Publicación"
+				android:ellipsize="end"
+				android:maxLines="1"
+				android:singleLine="true"
+			    android:background="@drawable/edit_campo"
+			     >
+			</EditText>
+		</TableRow>
+		<TableRow >
+			<TextView
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:text="Categoria:"
+		        android:layout_weight="1"
+		        android:padding="10dp" />
+		</TableRow>
+		<TableRow >
+			<EditText
+			    android:id="@+id/editText2"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:ems="10"
+			    android:hint="Categoria de la publicacion"
+				android:ellipsize="end"
+				android:maxLines="1"
+				android:singleLine="true"
+			    android:background="@drawable/edit_campo"
+			     >
+			</EditText>
+		</TableRow>
+		<TableRow >
+		    <TextView
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:text="Descripcion:"
+		        android:layout_weight="1"
+		        android:padding="10dp" />
+		 </TableRow>
+		 <TableRow >
+
+		    <EditText
+		        android:id="@+id/editText1"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="1"
+		        android:ems="10"
+		        android:hint="Describe los hechos"
+		        android:inputType="textMultiLine"
+		        android:background="@drawable/edit_campo"
+		         >
+			</EditText>
 		</TableRow>
 	</TableLayout>
 </ScrollView>

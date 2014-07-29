@@ -13,6 +13,7 @@ public function Distrito($distrito)
     $select->from(array('a'=>$this->_name));
     $select->where('a.distrito=?',$distrito);
     $select->order(array('a.id_post DESC'));
+    $select->where('a.permiso=?','1');
     return $db->fetchAll($select);
 }
 public function Provincia($provincia)
@@ -22,6 +23,7 @@ public function Provincia($provincia)
     $select->from(array('a'=>$this->_name));
     $select->where('a.provincia=?',$provincia);
     $select->order(array('a.id_post DESC'));
+    $select->where('a.permiso=?','1');
     return $db->fetchAll($select);
 }
 public function Region($region)
@@ -31,6 +33,7 @@ public function Region($region)
     $select->from(array('a'=>$this->_name));
     $select->where('a.region=?',$region);
     $select->order(array('a.id_post DESC'));
+    $select->where('a.permiso=?','1');
     return $db->fetchAll($select);
 }
 public function Pais($pais)
@@ -40,6 +43,7 @@ public function Pais($pais)
     $select->from(array('a'=>$this->_name));
     $select->where('a.pais=?',$pais);
     $select->order(array('a.id_post DESC'));
+    $select->where('a.permiso=?','1');
     return $db->fetchAll($select);
 }
 public function Id($Id)
@@ -48,7 +52,34 @@ public function Id($Id)
     $select=$db->select();
     $select->from(array('a'=>$this->_name));
     $select->where('a.id_post=?',$Id);
+    return $db->fetchAll($select);
+}
+public function ultimos10()
+{
+    $db=$this->getAdapter();
+    $select=$db->select();
+    $select->from(array('a'=>$this->_name));
     $select->order(array('a.id_post DESC'));
+    $select->where('a.permiso=?','1');
+    $select->limit(10);
+    return $db->fetchAll($select);
+}
+public function ultimos()
+{
+    $db=$this->getAdapter();
+    $select=$db->select();
+    $select->from(array('a'=>$this->_name));
+    $select->order(array('a.id_post DESC'));
+    $select->limit(10);
+    return $db->fetchAll($select);
+}
+public function Rand()
+{
+    $db=$this->getAdapter();
+    $select=$db->select();
+    $select->from(array('a'=>$this->_name));
+    $select->order('RAND()');
+    $select->limit(2);
     return $db->fetchAll($select);
 }
 }

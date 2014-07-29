@@ -69,9 +69,13 @@ if(isset($this->session->id_usuario)){
             $Titulo=$this->getRequest()->getParam("Titulo");
             $Categoria=$this->getRequest()->getParam("Categoria");
             $Descripcion=$this->getRequest()->getParam("Descripcion");
+            $pais=$this->getRequest()->getParam("pais");
+            $region=$this->getRequest()->getParam("region");
+            $provincia=$this->getRequest()->getParam("provincia");
+            $distrito=$this->getRequest()->getParam("distrito");
            
                if($Titulo!="" && $Categoria!="" && $Descripcion!=""){
-                   $this->Post->guardar(0, $Titulo, $imagen, $Descripcion, $this->session->id_usuario,0,1);
+                   $this->Post->guardar(0, $Titulo, $imagen, $Descripcion, $this->session->id_usuario,0,1,$pais,$region,$provincia,$distrito);
                     $this->_redirect('');
                }
                 $this->_redirect('');

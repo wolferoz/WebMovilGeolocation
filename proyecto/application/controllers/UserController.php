@@ -10,6 +10,8 @@ class UserController extends Zend_Controller_Action
         $this->session = new Zend_Session_Namespace('usuario');
         $this->UserInfo= new Application_Model_DbTable_Usuario();
         $this->Registro= new Application_Model_Usuario();
+        $this->Post=new Application_Model_Post();
+        $this->PostDetalle=new Application_Model_DbTable_Post();
         //modelos
 
         //exite session..??
@@ -63,7 +65,11 @@ class UserController extends Zend_Controller_Action
                 $session->region=$datos->region;
                 $session->provincia=$datos->provincia;
                 $session->distrito=$datos->distrito;
-                $this->_redirect('');
+                if( $datos->rol=='admin'){
+                    $this->_redirect('/user/admin');
+                }else{
+                    $this->_redirect('');
+                }
             }else{
                 echo "verifique sus datos";
             }
@@ -74,31 +80,40 @@ class UserController extends Zend_Controller_Action
 
     public function registroAction()
     {
-        $Pseudonimo=strtolower($this->getRequest()->getParam("txtPseudonimo"));
-        $Correo=$this->getRequest()->getParam("txtCorreo");
-        $Contrasena=$this->getRequest()->getParam("txtContrasena");
-        $Contrasena2=$this->getRequest()->getParam("txtContrasena2");
 
-        if($Pseudonimo!=" " && $Correo!=" " && $Contrasena!=" " && $Contrasena2!=" "){
-            if($Contrasena==$Contrasena2){
-            $fechaActual= new Zend_Date();
-            $fechaActual->setTimezone('America/Lima');
-            $this->Registro->guardar(0, $Correo, $Pseudonimo, $Contrasena, 'img/perfil.jpg',$fechaActual->get("Y-M-d H:m:s"));
+        $submit=$this->getRequest()->getParam("submit");
+       if(isset($submit)){
+        $Nombre=strtolower($this->getRequest()->getParam("Nombre"));
+        $Apellido=$this->getRequest()->getParam("Apellido");
+        $Alias=$this->getRequest()->getParam("Alias");
+        $Password=$this->getRequest()->getParam("Password");
+
+        $pais=$this->getRequest()->getParam("pais");
+        $region=$this->getRequest()->getParam("region");
+        $provincia=$this->getRequest()->getParam("provincia");
+        $distrito=$this->getRequest()->getParam("distrito");
+
+
+        if($Nombre!=" " && $Apellido!=" " && $Alias!=" " && $Password!=" "){
+
+
+            $this->Registro->guardar(0, $Nombre, $Apellido, $Password,"user",$Alias,$pais,$region,$provincia,$distrito);
             //buscamos al ultimo usuario agregado
-            $datos=$this->UserInfo->Existe_Email($Correo);
+            $datos=$this->UserInfo->Existe_alias($Alias);
             foreach($datos as $row){
                 $session = new Zend_Session_Namespace('usuario');
                 $session->id_usuario=$row['id_usuario'];
-                $session->correo=$row['correo'];
-                $session->pseudonimo=$row['pseudonimo'];
+                $session->alias=$row['alias'];
+                $session->pais=$row['pais'];
+                $session->region=$row['region'];
+                $session->provincia=$row['provincia'];
+                $session->distrito=$row['distrito'];
                 $this->_redirect('');
-            }
-            }else{
-                $this->_redirect('');
-            }
+          }
         }else{
             $this->_redirect('');
         }
+       }
     }
 
     public function logoutAction()
@@ -109,46 +124,7 @@ class UserController extends Zend_Controller_Action
     $this->_redirect();
     }
 
-    public function configAction()
-    {
-       if(isset($this->session->id_usuario)){
-           $Modo=$this->getRequest()->getParam("modo");
-           $datos=$this->UserInfo->User_Dato($this->session->id_usuario);
-           $this->view->datos=$datos;
-           foreach($datos as $row){
-               $correo=$row['correo'];
-               $pseudonimo=$row['pseudonimo'];
-               $password=$row['password'];
-               $imagen=$row['imagen'];
-               $fecha=$row['fecha'];
-           }
-           if($Modo=="a"){
-              $Alias=$this->getRequest()->getParam("txtAlias");
-              $this->Registro->guardar($this->session->id_usuario, $correo, $Alias, $password, $imagen,$fecha);
-              $this->_redirect("user/config");
-           }
-           if($Modo=="b"){
-               $Corre=$this->getRequest()->getParam("txtCorreo");
-              $this->Registro->guardar($this->session->id_usuario, $Corre, $pseudonimo, $password, $imagen,$fecha);
-              $this->_redirect("user/config");
-           }
-           if($Modo=="c"){
-              $Contra=$this->getRequest()->getParam("txtcontraante");
-              if($Contra==$row['password']){
-              $ContraNew=$this->getRequest()->getParam("txtcontranew");
-              $this->Registro->guardar($this->session->id_usuario, $correo, $pseudonimo, $ContraNew, $imagen,$fecha);
-              $this->_redirect("user/config");   
-              }else{
-                  $this->_redirect("user/config/modo/alerta");
-              }
-           }
-           if($Modo=="alerta"){
-            $this->view->alerta="error contraseña incorrecta";
-           }
-       }else{
-         $this->_redirect();
-       }
-    }
+
 
     public function subirAction()
     {
@@ -204,8 +180,63 @@ if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) {
 
 }
     }
-
-
+    public function adminAction()
+    {
+        if(isset($this->session->id_usuario)){
+         $this->view->Usuarios=$this->UserInfo->Ultimos();
+         $this->view->Post=$this->PostDetalle->ultimos();
+        }else{
+            $this->_redirect();
+        }
+    }
+    public function rolAction()
+    {
+        if(isset($this->session->id_usuario)){
+        $i=$this->getRequest()->getParam("i");
+        $rol=$this->getRequest()->getParam("group$i");
+        $Id=$this->getRequest()->getParam("id");
+        $Usuario=$this->UserInfo->User_Id($Id);
+        foreach($Usuario as $row){
+            $nombre=$row['nombre'];
+            $apellido=$row['apellido'];
+            $password=$row['password'];
+            $fecha=$row['fecha'];
+            $alias=$row['alias'];
+            $pais=$row['pais'];
+            $region=$row['region'];
+            $provincia=$row['provincia'];
+            $distrito=$row['distrito'];
+        }
+        $this->Registro->guardar($Id, $nombre, $apellido, $password, $rol, $alias, $pais, $region, $provincia, $distrito);
+        $this->_redirect("user/admin");
+        }else{
+         $this->_redirect();
+        }
+    }
+    public function permisoAction()
+    {
+        if(isset($this->session->id_usuario)){
+        $i=$this->getRequest()->getParam("i");
+        $permiso=$this->getRequest()->getParam("group$i");
+        $Id=$this->getRequest()->getParam("id");
+        $Post=$this->PostDetalle->Id($Id);
+        foreach($Post as $row){
+            $titulo=$row['titulo'];
+            $img=$row['imagen'];
+            $descripcion=$row['descripcion'];
+            $id_usuario=$row['id_usuario'];
+            $categoria=$row['id_categoria'];
+            $pais=$row['pais'];
+            $region=$row['region'];
+            $provincia=$row['provincia'];
+            $distrito=$row['distrito'];
+        }
+        $this->Post->guardar($Id, $titulo, $img, $descripcion, $id_usuario, $permiso, $categoria, $pais, $region, $provincia, $distrito);
+        $this->_redirect("user/admin");
+        }else{
+         $this->_redirect();
+        }
+    }
 }
 
 

@@ -6,28 +6,55 @@
 <div class="row" style="margin-bottom: 20px;">
 
         <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
-            <h1>
-                Mi titulo que les parece
-            </h1>
-            <img src="<?php echo $this->baseUrl.'/uploads/descarga.jpg'?>">
-            <div>
-                hola como estan mis queridos amigos este es un post detallado
-            </div>
-                 
-                            <div style="background: url(<?php echo $this->baseUrl?>/image/com.png) no-repeat 2px;margin-top: 15px;padding-left: 22px;" class="titlee"><h3>ayudame con un consejo : 
-                                (<spam class="fb-comments-count" data-href="http://tusconfesiones.com/ver/<?php echo $url.'-'.$row['id_confecion'].'.html';?>" fb-xfbml-state="rendered"></spam>)</h3>
-                            </div>
-                            <div class="fb-comments fb_iframe_widget" data-href="http://tusconfesiones.com/ver/<?php echo $url.'-'.$row['id_confecion'].'.html';?>" data-num-posts="20"  data-width="100%"  data-mobile="false" fb-xfbml-state="rendered">
-                            </div>
+            <?php
+            foreach($this->Datos as $row):
 
+            ?>
+            <h1>
+                <?php echo $row['titulo']?>
+            </h1>
+            <img src="<?php echo $this->baseUrl.'/'.$row['imagen']?>">
+            <div>
+                <?php echo $row['descripcion']?>
+            </div>  
+            <?php endforeach;?>
         </div>
         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" >
-            <div style="background-color:#000;height:110px">11</div>
-            <div style="background-color:#000;height:110px">11</div>
+            <?php
+                     
+            foreach ($this->Voto as $row):
+            $cantidad=5000;
+            $favor=($row['afavor']/$cantidad)*100;
+            $contra=($row['encontra']/$cantidad)*100;
+            $nuevoFa=$row['afavor']+1;
+            $nuevoCo=$row['encontra']+1;
+                    ?>
+            <h3>A Favor del Post: <?php echo $row['afavor']?></h3>
+              <div class="progress">
+                <span style="width: <?php echo $favor?>%;"></span>
+              </div>
+            <h3>En Contra del Post: <?php echo $row['encontra']?></h3>
+              <div class="progress rojo">
+                <span style="width: <?php echo $contra?>%;"></span>
+              </div>
+            
+              <center>
+                  <button type="button"  class="btn btn-success">Votar a Favor</button>
+              <button type="button"  class="btn btn-danger">Votar en Contra</button>
+              </center>
+            <?php endforeach;?>
         </div>
 
 </div>
-
+<div class="row" style="margin-bottom: 20px;">
+    <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
+        <div style="background: url(<?php echo $this->baseUrl?>/image/com.png) no-repeat 2px;margin-top: 15px;padding-left: 22px;" class="titlee"><h3>ayudame con un consejo :
+            (<spam class="fb-comments-count" data-href="http://tusconfesiones.com/ver/<?php echo $url.'-'.$row['id_confecion'].'.html';?>" fb-xfbml-state="rendered"></spam>)</h3>
+        </div>
+        <div class="fb-comments fb_iframe_widget" data-href="http://tusconfesiones.com/ver/<?php echo $url.'-'.$row['id_confecion'].'.html';?>" data-num-posts="20"  data-width="100%"  data-mobile="false" fb-xfbml-state="rendered">
+        </div>
+    </div>
+</div>
 
 
 

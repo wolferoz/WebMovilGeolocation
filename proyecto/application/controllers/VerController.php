@@ -11,7 +11,8 @@ class VerController extends Zend_Controller_Action
         $this->UserInfo= new Application_Model_DbTable_Usuario();
         $this->Post=new Application_Model_Post();
         $this->PostDetalle=new Application_Model_DbTable_Post();
-
+        $this->Voto=new Application_Model_DbTable_Voto();
+        $this->VotoDetalle=new Application_Model_Voto();
         //modelos
 
         //exite session..??
@@ -41,7 +42,8 @@ class VerController extends Zend_Controller_Action
 
           if($n==1){
             $datos=$this->PostDetalle->Id($ID);
-           
+            $this->view->Voto=$this->Voto->All($ID);
+
             $this->view->Datos=$datos;
 //            foreach($datos as $row){
 //                $url=str_replace(' ','-',$row['titulo']);
@@ -56,6 +58,14 @@ class VerController extends Zend_Controller_Action
        }else{
            $this->_redirect();
        }
+    }
+    public function votoAction()
+    {
+     $favor=$this->getRequest()->getParam("favor");
+     $contra=$this->getRequest()->getParam("contra");
+     $id=$this->getRequest()->getParam("id");
+     $idvo=$this->getRequest()->getParam("idvo");
+     $this->VotoDetalle->guardar($idvo, $favor, $contra,$id);
     }
 
 

@@ -9,7 +9,7 @@ function __construct(){
 
 }
 
-public function guardar($id_post,$titulo,$img,$descripcion,$id_usuario,$permiso,$categoria)
+public function guardar($id_post,$titulo,$img,$descripcion,$id_usuario,$permiso,$categoria,$pais,$region,$provincia,$distrito)
 {
 if ($id_post==0)
 {
@@ -29,6 +29,10 @@ $row->descripcion=$descripcion;
 $row->id_usuario=$id_usuario;
 $row->permiso=$permiso;
 $row->id_categoria=$categoria;
+$row->pais=$pais;
+$row->region=$region;
+$row->provincia=$provincia;
+$row->distrito=$distrito;
 $row->save();
 }
 

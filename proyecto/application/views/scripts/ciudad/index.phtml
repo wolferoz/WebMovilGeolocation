@@ -1,74 +1,3 @@
-<?php if(!isset($this->Info)){ ?>
-<script type="text/javascript" >
-        function omitirAcentos(text) {
-            var acentos = "ÃÀÁÄÂÈÉËÊÌÍÏÎÒÓÖÔÙÚÜÛãàáäâèéëêìíïîòóöôùúüûÑñÇç";
-            var original = "AAAAAEEEEIIIIOOOOUUUUaaaaaeeeeiiiioooouuuunncc";
-            for (var i=0; i<acentos.length; i++) {
-                text = text.replace(acentos.charAt(i), original.charAt(i));
-            }
-            return text;
-        }
-	function getGeo(){
-
-	if (navigator && navigator.geolocation) {
-	   navigator.geolocation.getCurrentPosition(geoOK, geoKO);
-	} else {
-	   geoMaxmind();
-	}
-
-	}
-
-	function geoOK(position) {
-	showLatLong(position.coords.latitude, position.coords.longitude);
-	}
-
-
-	function geoMaxmind() {
-	showLatLong(geoip_latitude(), geoip_longitude());
-	}
-
-	function geoKO(err) {
-	if (err.code == 1) {
-	error('El usuario ha denegado el permiso para obtener informacion de ubicacion.');
-	} else if (err.code == 2) {
-	error('Tu ubicacion no se puede determinar.');
-	} else if (err.code == 3) {
-	error('TimeOut.')
-	} else {
-	error('No sabemos que pasó pero ocurrio un error.');
-	}
-	}
-
-	function showLatLong(lat, longi) {
-	var geocoder = new google.maps.Geocoder();
-	var yourLocation = new google.maps.LatLng(lat, longi);
-	geocoder.geocode({ 'latLng': yourLocation },processGeocoder);
-
-	}
-	function processGeocoder(results, status){
-
-	if (status == google.maps.GeocoderStatus.OK) {
-	if (results[0]) {
-            var dato=String(results[4].formatted_address);
-            var dato2=String(results[1].formatted_address);
-            var cadena=dato.split(',');
-            var cadena2=dato2.split(',');
-            var region=omitirAcentos(cadena[0]);
-            var provin=omitirAcentos(cadena2[0]);
-            location.href="<?php echo $this->baseUrl.'/ciudad/'?>"+region+"/"+provin+"";
-
-	} else {
-	error('Google no retorno resultado alguno.');
-	}
-	} else {
-	error("Geocoding fallo debido a : " + status);
-	}
-	}
-	function error(msg) {
-	alert(msg);
-	}
-	</script>
-<?php } ?>
                 <div class="row">
 			<div class="col-xs-12">
 			<img src="<?php echo $this->baseUrl.'/image/cabesa.png'?>">
@@ -79,7 +8,7 @@
 				     <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
 
 						<ol class="carousel-indicators">
-                                                  <?php 
+                                                  <?php
                                                   $count=0;
                                                   foreach ($this->Datos as $row):
                                                   $count++;
@@ -99,11 +28,11 @@
                                                   if($count==1){
                                                   ?>
 						  <div class="item active">
-							<a href="<?php echo $this->baseUrl.'/ver/'.$url.'-'.$row['id_post'].'.html'?>"><img  src="<?php echo $row['imagen']?>"></a>
+							<a href="<?php echo $this->baseUrl.'/ver/'.$url.'-'.$row['id_post'].'.html'?>"><img  src="<?php echo $this->baseUrl.'/'.$row['imagen']?>"></a>
 						  </div>
                                                   <?php }else{?>
 						  <div class="item">
-							<a href="<?php echo $this->baseUrl.'/ver/'.$url.'-'.$row['id_post'].'.html'?>"><img  src="<?php echo $row['imagen']?>"></a>
+							<a href="<?php echo $this->baseUrl.'/ver/'.$url.'-'.$row['id_post'].'.html'?>"><img  src="<?php echo $this->baseUrl.'/'.$row['imagen']?>"></a>
 						  </div>
                                                   <?php } endforeach;?>
 						</div>
@@ -167,7 +96,3 @@
 		<div class="row">
 
 		</div>
-
-
-	  <!-- Button to trigger modal -->
-

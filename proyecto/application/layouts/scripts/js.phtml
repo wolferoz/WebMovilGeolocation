@@ -1,0 +1,50 @@
+
+<script language="javascript">
+$(document).ready(function(){
+   $("#pais").change(function () {
+           $("#pais option:selected").each(function () {
+            pais=$(this).val();
+            $.post("<?php echo $this->baseUrl.'/sitios/region'?>", { pais: pais }, function(data){
+            $("#region").html(data);
+            });
+        });
+   })
+});
+</script>
+<script language="javascript">
+$(document).ready(function(){
+   $("#region").change(function () {
+           $("#region option:selected").each(function () {
+            region=$(this).val();
+            $.post("<?php echo $this->baseUrl.'/sitios/provincia'?>", { region: region }, function(data){
+            $("#provincia").html(data);
+            });
+        });
+   })
+});
+</script>
+<script language="javascript">
+$(document).ready(function(){
+   $("#provincia").change(function () {
+           $("#provincia option:selected").each(function () {
+            provincia=$(this).val();
+            $.post("<?php echo $this->baseUrl.'/sitios/distrito'?>", { provincia: provincia }, function(data){
+            $("#distrito").html(data);
+            });
+        });
+   })
+});
+</script>
+
+	<script>
+		$(function() {
+			$(".progress > span").each(function() {
+				$(this)
+					.data("anchoBarra", $(this).width())
+					.width(0)
+					.animate({
+						width: $(this).data("anchoBarra")
+					}, 7000);
+			});
+		});
+	</script>

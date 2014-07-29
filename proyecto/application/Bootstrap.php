@@ -15,9 +15,18 @@ $route = new Zend_Controller_Router_Route(
         'action'     => 'index'
     )
 );
+$route2 = new Zend_Controller_Router_Route(
+    'ciudad/:pais/:pro',
+        array(
+
+        'controller' => 'ciudad',
+        'action'     => 'index'
+    )
+);
 
 //mandamos el nuevo ruter
 $router->addRoute('ver', $route);
+$router->addRoute('ciudad', $route2);
 }
 }
 

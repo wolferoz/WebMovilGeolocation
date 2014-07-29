@@ -18,6 +18,28 @@
         <controllerFile controllerName="Ver">
           <actionMethod actionName="index"/>
         </controllerFile>
+        <controllerFile controllerName="Sitios">
+          <actionMethod actionName="index"/>
+          <actionMethod actionName="pais"/>
+          <actionMethod actionName="region"/>
+          <actionMethod actionName="provincia"/>
+          <actionMethod actionName="distrito"/>
+        </controllerFile>
+        <controllerFile controllerName="Pais">
+          <actionMethod actionName="index"/>
+        </controllerFile>
+        <controllerFile controllerName="Region">
+          <actionMethod actionName="index"/>
+        </controllerFile>
+        <controllerFile controllerName="Provincia">
+          <actionMethod actionName="index"/>
+        </controllerFile>
+        <controllerFile controllerName="Distrito">
+          <actionMethod actionName="index"/>
+        </controllerFile>
+        <controllerFile controllerName="Ciudad">
+          <actionMethod actionName="index"/>
+        </controllerFile>
       </controllersDirectory>
       <formsDirectory enabled="false"/>
       <layoutsDirectory>
@@ -45,6 +67,36 @@
             <viewScriptFile forActionName="guardar"/>
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Ver">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Sitios">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Pais">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Region">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Provincia">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Distrito">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Sitios">
+            <viewScriptFile forActionName="pais"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Sitios">
+            <viewScriptFile forActionName="region"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Sitios">
+            <viewScriptFile forActionName="provincia"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Sitios">
+            <viewScriptFile forActionName="distrito"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Ciudad">
             <viewScriptFile forActionName="index"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>

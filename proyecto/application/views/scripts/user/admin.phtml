@@ -1,0 +1,114 @@
+<div class="row" style="margin-bottom: 40px;">
+        <div class="col-xs-12 col-sm-12 col-md-10 col-lg-8">
+        <img src="<?php echo $this->baseUrl.'/image/cabesa.png'?>">
+        </div>
+</div>
+<div class="row" style="margin-bottom: 20px;">
+
+            <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
+                <h1>Usuarios:</h1>
+                <table class="table">
+                    <tr>
+                        <td>N°</td>
+                        <td>Nombre</td>
+                        <td>Apellido</td>
+                        <td>Alias</td>
+                        <td>Rol</td>
+                        <td>User</td>
+                        <td>Admin</td>
+                        <td>Editar Rol</td>
+                    </tr>
+               <?php 
+               $i=0;
+               foreach($this->Usuarios as $row):
+                $i++;
+               $rol=$row['rol'];
+               ?>
+                    <form name="form<?php echo $i?>"  method="post" action="<?php echo $this->baseUrl.'/user/rol'?>">
+                    <tr>
+                        <td><?php echo $i?><input type="hidden" name="i" value="<?php echo $i?>"></td>
+                        <td><?php echo $row['nombre']?></td>
+                        <td><?php echo $row['apellido']?></td>
+                        <td><?php echo $row['alias']?></td>
+                        <td><?php echo $row['rol']?><input type="hidden" name="id" value="<?php echo $row['id_usuario']?>"></td>
+                        <td><input type="radio" name="group<?php echo $i?>" value="user"<?php if($rol=='user') echo 'checked';?>  ></td>
+                        <td><input type="radio" name="group<?php echo $i?>" value="admin" <?php if($rol=='admin') echo 'checked';?>></td>
+                        <td><button type="submit"  class="btn btn-primary btn-xs">Editar</button></td>
+                    </tr>
+                    
+                    </form>
+                <?php endforeach;?>
+                </table>
+                <h1>Post:</h1>
+                <table class="table">
+                    <tr>
+                        <td>N°</td>
+                        <td width="20%">imagen</td>
+                        <td>titulo</td>
+                        <td>descripción</td>
+                        <td>fecha</td>
+                        <td>Permiso</td>
+                        <td>Si</td>
+                        <td>No</td>
+                        <td>Editar Permiso</td>
+                    </tr>
+               <?php
+               $i=0;
+               foreach($this->Post as $row):
+                $i++;
+               $permiso=$row['permiso'];
+               if($permiso==0){
+                   $resp="no";
+               }if($permiso==1){
+                   $resp="si";
+               }
+               ?>
+                    <form name="formm<?php echo $i?>"  method="post" action="<?php echo $this->baseUrl.'/user/permiso'?>">
+                    <tr <?php if($permiso==1){ echo 'class="info"';}else{echo 'class="danger"';}?>>
+                        <td><?php echo $i?><input type="hidden" name="i" value="<?php echo $i?>"></td>
+                        <td><img src="<?php echo $this->baseUrl.'/'.$row['imagen']?>"></td>
+                        <td><?php echo $row['titulo']?></td>
+                        <td><?php echo $row['descripcion']?></td>
+                        <td><?php echo $row['fecha']?></td>
+                        <td><?php echo $resp?><input type="hidden" name="id" value="<?php echo $row['id_post']?>"></td>
+                        <td><input type="radio" name="group<?php echo $i?>" value="1"<?php if($permiso==1) echo 'checked';?>  ></td>
+                        <td><input type="radio" name="group<?php echo $i?>" value="0" <?php if($permiso==0) echo 'checked';?>></td>
+                        <td><button type="submit"  class="btn btn-primary btn-xs">Editar</button></td>
+                    </tr>
+
+                    </form>
+                <?php endforeach;?>
+                </table>
+
+<!--        <script type="text/javascript">
+        $(document).ready(function()
+                {
+                $("#Editar1").click(function () {
+                        $('#target1').toggle("fast");
+                        });
+                });
+        </script>
+                            <div id="Editar1" class="config-editar">Editar</div>
+                            <div id="target1" class="target">
+                                <form name="form1" action="<?php echo $this->baseUrl?>/user/config/modo/a" method="post">
+                                    <div><label>Nuevo Alias: </label></div>
+                                    <div style="padding-left: 30px"><input type="text" name="txtAlias" id="txtAlias"/></div>
+                                    <div style="padding-left: 30px"><button  >Cambiar</button></div>
+                                </form>
+                            </div>-->
+        </div>
+        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" >
+                        <center>
+                        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                        <!-- lateral-grande -->
+                        <ins class="adsbygoogle"
+                             style="display:inline-block;width:300px;height:600px"
+                             data-ad-client="ca-pub-3567481747949009"
+                             data-ad-slot="7143929578"></ins>
+                        <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
+                        </center>
+        </div>
+
+</div>

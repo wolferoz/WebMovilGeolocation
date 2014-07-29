@@ -1,0 +1,5 @@
+<option>Seleccionar</option>
+<?php
+foreach ($this->distrito as $row):?>
+<option value="<?php echo $row['id_distrito']?>"><?php echo $row['nombre']?></option>
+<?php endforeach; ?>

@@ -33,21 +33,22 @@ public final class R {
         public static final int txt_filename=0x7f020009;
     }
     public static final class id {
-        public static final int action_cerrar_sesion=0x7f080012;
-        public static final int action_settings=0x7f080011;
+        public static final int action_cerrar_sesion=0x7f080013;
+        public static final int action_settings=0x7f080012;
         public static final int btnBuscar=0x7f08000c;
         public static final int btnCam=0x7f08000d;
         public static final int btnLoginInitSesion=0x7f080008;
         public static final int btnSubir=0x7f08000e;
         public static final int button1=0x7f080005;
-        public static final int editText1=0x7f080010;
-        public static final int editText2=0x7f08000f;
         public static final int imageView_pic=0x7f080009;
         public static final int textView1=0x7f08000a;
         public static final int txtCalle=0x7f080004;
         public static final int txtDistrito=0x7f080003;
         public static final int txtLoginAlias=0x7f080006;
         public static final int txtLoginPasword=0x7f080007;
+        public static final int txtMainEditCategoria=0x7f080010;
+        public static final int txtMainEditDescripcion=0x7f080011;
+        public static final int txtMainEditTitulo=0x7f08000f;
         public static final int txtNombreArchivo=0x7f08000b;
         public static final int txtPais=0x7f080000;
         public static final int txtProvincia=0x7f080002;

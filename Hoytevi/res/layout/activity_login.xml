@@ -24,6 +24,8 @@
 			    android:layout_marginTop="100dp"
 			    android:background="#ffffff"
 			    android:ems="10"
+			    android:maxLines="1"
+			    android:singleLine="true"
 			    android:hint="Alias"
 			    android:padding="15dp" />
 	    </TableRow>
@@ -35,6 +37,8 @@
 	            android:layout_marginTop="19dp"
 	            android:background="#ffffff"
 	            android:ems="10"
+	            android:maxLines="1"
+	            android:singleLine="true"
 	            android:hint="Contraseña"
 	            android:inputType="textPassword"
 	            android:padding="15dp" >

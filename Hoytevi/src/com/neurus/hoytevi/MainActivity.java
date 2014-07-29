@@ -39,6 +39,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,6 +55,7 @@ public class MainActivity extends Activity {
 	private TextView messageText;
 	private Calendar c = Calendar.getInstance();
     private Button btnselectpic,btnViewCam,uploadButton;
+    private EditText txtEditTitulo,txtEditCategoria,txtEditDescripcion;
     private ImageView imageview;
     private int serverResponseCode = 0;
     private ProgressDialog dialog = null;
@@ -88,6 +90,10 @@ public class MainActivity extends Activity {
     		imageview = (ImageView)findViewById(R.id.imageView_pic);
 
     		messageText.setText(alias+" "+password+" "+nombre+" "+apellido+" "+rol);
+    		
+    		txtEditTitulo = (EditText) findViewById(R.id.txtMainEditTitulo);
+    		txtEditCategoria= (EditText) findViewById(R.id.txtMainEditCategoria);
+    		txtEditDescripcion = (EditText) findViewById(R.id.txtMainEditDescripcion);
     		
     		btnselectpic.setOnClickListener(new OnClickListener() {
     			@Override
@@ -124,9 +130,13 @@ public class MainActivity extends Activity {
     				startActivityForResult(intent, 2); // 2 para la camara, 1 para la galeria
     			}
     		});
+    		
     		uploadButton.setOnClickListener(new OnClickListener() {
     			@Override
     			public void onClick(View arg0) {
+    				
+    				defineUpLoadServerUri(""+txtEditTitulo.getText(),""+txtEditCategoria.getText(),""+txtEditDescripcion.getText());
+    				
     				if(idAccion == 1){//galeria
     					dialog = ProgressDialog.show(MainActivity.this, "", "Cargando archivo...", true);//Uploading file
     					 messageText.setText("Empezando la carga.....");//uploading started
@@ -136,13 +146,16 @@ public class MainActivity extends Activity {
     		                 }
     		             }).start();
     				}else if(idAccion== 2){//camara
-    					UploaderFoto nuevaTarea = new UploaderFoto();
+    					UploaderFoto nuevaTarea = new UploaderFoto(upLoadServerUri);
     					nuevaTarea.execute(imagepathCam);
     				}
     			}
     		});
     		//upLoadServerUri = "http://192.168.137.1/proyecto/public/post/guardar/Titulo/galeria/Categoria/2/Descripcion/bb";
-    		upLoadServerUri = "http://192.168.1.2/conectar/UploadToServer.php";
+    		
+	}
+	private void defineUpLoadServerUri(String unTitulo,String unaCategoria,String unaDescripcion){
+		upLoadServerUri = "http://192.168.1.2/conectar/UploadToServer.php?titulo="+unTitulo+"&id_categoria="+unaCategoria+"&descripcion="+unaDescripcion;
 	}
 	//Sube una imagen cargada desde la galeria
 	public int uploadFile(String sourceFileUri) {
@@ -316,6 +329,7 @@ public class MainActivity extends Activity {
 	
 	protected void onSaveInstanceState (Bundle outState){
 		outState.putString("imagepathCam", imagepathCam);
+		
 	}
 	@Override
     protected void onRestoreInstanceState(Bundle recEstado) {
@@ -338,17 +352,21 @@ public class MainActivity extends Activity {
 
 		ProgressDialog pDialog;//Dialogo de progreso de subida de la foto
 		String miFoto = "";//Guardamos la ruta absoluta de la foto
-		
+		String upLoadServerUrl;
+		public UploaderFoto(String upLoadServerUri){
+			upLoadServerUrl=upLoadServerUri;
+		}
 		@Override
 		protected Void doInBackground(String... params) {
 			miFoto = params[0];
+			
 			try {
 				//clase para comunicaciones HTTP
 				HttpClient httpclient = new DefaultHttpClient();
 				httpclient.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
 				// PARA ENVIAR INFORMACION DE TIPO POST
 				//HttpPost httppost = new HttpPost("http://192.168.137.1/proyecto/public/post/guardar/Titulo/camara/Categoria/1/Descripcion/aa");
-				HttpPost httppost = new HttpPost("http://192.168.1.2/conectar/UploadToServer.php");
+				HttpPost httppost = new HttpPost(upLoadServerUrl);
 				
 				File file = new File(miFoto);
 				//PARA ENVIAR INFORMACION Y ARCHIVOS

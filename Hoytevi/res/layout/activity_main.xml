@@ -90,17 +90,17 @@
 		        android:padding="10dp" />
 		</TableRow>
 		<TableRow >
+
 			<EditText
-			    android:id="@+id/editText2"
+			    android:id="@+id/txtMainEditTitulo"
 			    android:layout_width="wrap_content"
 			    android:layout_height="wrap_content"
-			    android:ems="10"
-			    android:hint="Titulo de la Publicación"
-				android:ellipsize="end"
-				android:maxLines="1"
-				android:singleLine="true"
 			    android:background="@drawable/edit_campo"
-			     >
+			    android:ellipsize="end"
+			    android:ems="10"
+			    android:maxLines="1"
+			    android:singleLine="true" >
+
 			</EditText>
 		</TableRow>
 		<TableRow >
@@ -113,11 +113,10 @@
 		</TableRow>
 		<TableRow >
 			<EditText
-			    android:id="@+id/editText2"
+			    android:id="@+id/txtMainEditCategoria"
 			    android:layout_width="wrap_content"
 			    android:layout_height="wrap_content"
 			    android:ems="10"
-			    android:hint="Categoria de la publicacion"
 				android:ellipsize="end"
 				android:maxLines="1"
 				android:singleLine="true"
@@ -136,12 +135,11 @@
 		 <TableRow >
 
 		    <EditText
-		        android:id="@+id/editText1"
+		        android:id="@+id/txtMainEditDescripcion"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:layout_weight="1"
 		        android:ems="10"
-		        android:hint="Describe los hechos"
 		        android:inputType="textMultiLine"
 		        android:background="@drawable/edit_campo"
 		         >

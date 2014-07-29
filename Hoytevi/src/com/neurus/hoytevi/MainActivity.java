@@ -55,7 +55,7 @@ public class MainActivity extends Activity {
     private int idAccion=0; 
     
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
@@ -103,7 +103,6 @@ public class MainActivity extends Activity {
 			}
 		});
 		uploadButton.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View arg0) {
 				if(idAccion == 1){//galeria
@@ -118,11 +117,9 @@ public class MainActivity extends Activity {
 					UploaderFoto nuevaTarea = new UploaderFoto();
 					nuevaTarea.execute(imagepathCam);
 				}
-				
-				
 			}
 		});
-		upLoadServerUri = "http://192.168.1.2/conectar/UploadToServer.php";
+		upLoadServerUri = "http://192.168.137.1/proyecto/public/post/guardar/Titulo/galeria/Categoria/2/Descripcion/bb";
 	}
 	//llamado al dar click en boton subir
 	public int uploadFile(String sourceFileUri) {
@@ -153,7 +150,6 @@ public class MainActivity extends Activity {
 		        return 0;
 	        }else{//si esta cargado
 	        	try { 
-		        
 	        		// open a URL connection to the Servlet
 	        		FileInputStream fileInputStream = new FileInputStream(sourceFile);
 		            URL url = new URL(upLoadServerUri);
@@ -167,12 +163,12 @@ public class MainActivity extends Activity {
 		            conn.setRequestProperty("Connection", "Keep-Alive");
 		            conn.setRequestProperty("ENCTYPE", "multipart/form-data");
 		            conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
-		            conn.setRequestProperty("uploaded_file", fileName );//nuevo valor de nombre 
+		            conn.setRequestProperty("File", fileName );//nuevo valor de nombre 
 
 		            dos = new DataOutputStream(conn.getOutputStream());
 		     
 		            dos.writeBytes(twoHyphens + boundary + lineEnd); 
-		            dos.writeBytes("Content-Disposition: form-data; name=\"uploaded_file\";filename=\""
+		            dos.writeBytes("Content-Disposition: form-data; name=\"File\";filename=\""
 		            		                     +alias+c.getTimeInMillis()+".jpeg"+ "\"" + lineEnd);
 		            dos.writeBytes(lineEnd);
 		            
@@ -318,12 +314,13 @@ public class MainActivity extends Activity {
 				HttpClient httpclient = new DefaultHttpClient();
 				httpclient.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
 				// PARA ENVIAR INFORMACION DE TIPO POST
-				HttpPost httppost = new HttpPost("http://192.168.1.2/conectar/UploadToServer.php");
+				HttpPost httppost = new HttpPost("http://192.168.137.1/proyecto/public/post/guardar/Titulo/camara/Categoria/1/Descripcion/aa");
+				
 				File file = new File(miFoto);
 				//PARA ENVIAR INFORMACION Y ARCHIVOS
 				MultipartEntity mpEntity = new MultipartEntity();
 				ContentBody foto = new FileBody(file, "image/jpeg");
-				mpEntity.addPart("uploaded_file", foto);
+				mpEntity.addPart("File", foto);
 				httppost.setEntity(mpEntity);
 				httpclient.execute(httppost);
 				httpclient.getConnectionManager().shutdown();

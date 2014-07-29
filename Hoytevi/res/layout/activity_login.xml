@@ -10,23 +10,7 @@
     android:paddingTop="@dimen/activity_vertical_margin" >
 
     <EditText
-        android:id="@+id/txtIDUsuario"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/txtPasword"
-        android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/txtPasword"
-        android:layout_marginTop="99dp"
-        android:background="#ffffff"
-        android:ems="10"
-        android:hint="ID Usuario"
-        android:padding="15dp" >
-
-        <requestFocus />
-    </EditText>
-
-    <EditText
-        android:id="@+id/txtPasword"
+        android:id="@+id/txtLoginPasword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/txtIDUsuario"
@@ -39,14 +23,25 @@
         android:padding="15dp" />
 
     <Button
-        android:id="@+id/btnInitSesion"
-        android:background="@drawable/btn_ok"
+        android:id="@+id/btnLoginInitSesion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/txtPasword"
-        android:layout_alignRight="@+id/txtPasword"
-        android:layout_below="@+id/txtPasword"
-        android:layout_marginTop="21dp"
+        android:layout_below="@+id/txtLoginAlias"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="81dp"
+        android:background="@drawable/btn_ok"
         android:text="Iniciar Sesión" />
+
+    <EditText
+        android:id="@+id/txtLoginAlias"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/txtLoginPasword"
+        android:layout_below="@+id/txtLoginPasword"
+        android:layout_marginTop="27dp"
+        android:background="#ffffff"
+        android:ems="10"
+        android:hint="Alias"
+        android:padding="15dp" />
 
 </RelativeLayout>
